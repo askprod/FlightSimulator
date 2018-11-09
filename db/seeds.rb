@@ -13,6 +13,6 @@ codes.each do |code|
   Airport.create(airport_code: code)
 end
 
-50.times do |n|
-  Flight.create(duration: rand(1..20), departure_date: Faker::Date.unique.forward(50), departure_airport_id: rand(Airport.first.id..Airport.last.id), arrival_airport_id: rand(Airport.first.id..Airport.last.id))
+1000.times do |n|
+  Flight.create(departure_time: "#{rand(0..1)}#{rand(1..9)}:#{rand(1..5)}#{rand(0..9)}", duration: rand(1..20), departure_date: Faker::Date.forward(20), departure_airport_id: rand(Airport.first.id..Airport.last.id), arrival_airport_id: rand(Airport.first.id..Airport.last.id))
 end
