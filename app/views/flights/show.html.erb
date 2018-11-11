@@ -1,37 +1,42 @@
 <h1>Welcome to Flight Stimulator</h1>
-<h4><a href = "/">Home</a></h1>
 
-<%= form_for '/flights/show', method: 'get' do |f| %>
+    <%= form_for '/flights/show', method: 'get' do |f| %>
 
-    <%= f.label 'Departure Airport' %><br>
-    <%= f.select(:departure_code, @airports_options) %><br>
+        <%= f.label 'Departure Airport' %><br>
+        <%= f.select(:departure_code, @airports_options) %><br>
     
-    <%= f.label 'Arrival Airport' %><br>
-    <%= f.select(:arrival_code, @airports_options) %><br>
+        <%= f.label 'Arrival Airport' %><br>
+        <%= f.select(:arrival_code, @airports_options) %><br>
     
-    <%= f.label 'Number of Passengers' %><br>
-    <%= f.select(:number_passenger, @passengers_options) %><br>
+        <%= f.label 'Number of Passengers' %><br>
+        <%= f.select(:number_passenger, @passengers_options) %><br>
     
-    <%= f.label 'Departure Date' %><br>
-    <%= f.select(:departure_date, @flights_options.sort) %><br>
+        <%= f.label 'Departure Date' %><br>
+        <%= f.select(:departure_date, @flights_options.sort) %><br>
 
-    <%= f.submit 'Search Flights' %>
+        <%= f.submit 'Search Flights' %>
 
-<% end %>
+    <% end %>
 
 <% if params['/flights/show'] %>
-    <h1>Results</h1>
-        <%= @flights_results.map do |n| %>
-            <p>Flight Number: <%= n.id %>
-            From: <%= Airport.find(n.departure_airport_id).airport_code %>
-            To: <%= Airport.find(n.arrival_airport_id).airport_code %>
-            Departure Date: <%= n.departure_date %>
-            Departure Time: <%= n.departure_time %>
-            Travel Time: <%= n.duration %>hours</p>
+
+    <h1>Results: </h1>
+        <% @flights_results.map do |n| %>
+            <p>Flight Number: <%= n.id %></p>
+            <ul>
+                <li>From: <%= Airport.find(n.departure_airport_id).airport_code %></li>
+                <li>To: <%= Airport.find(n.arrival_airport_id).airport_code %></li>
+                <li>Departure Date: <%= n.departure_date %></li>
+                <li>Departure Time: <%= n.departure_time %></li>
+                <li>Travel Time: <%= n.duration %> hours</li>
+            </ul>
         <% end %>
+        
 <% else %>
-    <p>Je n'ai toujours pas appuyé sur le submit button 🚨</p>
+
+
 <% end %>
+
 
 
 
