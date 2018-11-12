@@ -1,40 +1,41 @@
-<h1>Welcome to Flight Stimulator</h1>
-
+<h1>Welcome to Flight Stimulator <span>&#9992;</span></h1>
+<h2>You can search flights here:</h2>
     <%= form_for '/flights/show', method: 'get' do |f| %>
-
         <%= f.label 'Departure Airport' %><br>
         <%= f.select(:departure_code, @airports_options) %><br>
-    
         <%= f.label 'Arrival Airport' %><br>
         <%= f.select(:arrival_code, @airports_options) %><br>
-    
         <%= f.label 'Number of Passengers' %><br>
-        <%= f.select(:number_passenger, @passengers_options) %><br>
-    
+        <%= f.select(:number_passenger, @passengers_options) %><br>   
         <%= f.label 'Departure Date' %><br>
         <%= f.select(:departure_date, @flights_options.sort) %><br>
-
         <%= f.submit 'Search Flights' %>
-
     <% end %>
 
 <% if params['/flights/show'] %>
-
-    <h1>Results: </h1>
-        <% @flights_results.map do |n| %>
-            <p>Flight Number: <%= n.id %></p>
-            <ul>
-                <li>From: <%= Airport.find(n.departure_airport_id).airport_code %></li>
-                <li>To: <%= Airport.find(n.arrival_airport_id).airport_code %></li>
-                <li>Departure Date: <%= n.departure_date %></li>
-                <li>Departure Time: <%= n.departure_time %></li>
-                <li>Travel Time: <%= n.duration %> hours</li>
-            </ul>
-        <% end %>
-        
-<% else %>
-
-
+    <% if @flights_results.empty? %>
+        <h2>No flights available.</h2>
+    <% elsif %> 
+        <% @same_airport %>
+        <h2>Please choose two different airports for arrival and departure.</h2>
+    <% else %>
+        <h2>Available flights: </h2>
+            <%= form_for @new_booking, url: new_booking_path, method: 'get' do |f| %>
+                    <input type="hidden" name='nbr_of_passengers' value=<%= params['/flights/show'][:number_passenger] %> > 
+                <% @flights_results.each do |n| %>
+                    <p><%= f.radio_button :flight_id, n.id %> Flight Number: <%= n.id %></p>
+                        <ul>
+                            <li>From: <%= Airport.find(n.departure_airport_id).airport_code %></li>
+                            <li>To: <%= Airport.find(n.arrival_airport_id).airport_code %></li>
+                            <li>Departure Date: <%= n.departure_date %></li>
+                            <li>Departure Time: <%= n.departure_time %></li>
+                            <li>Travel Time: <%= n.duration %> hours</li>
+                        </ul>
+                <% end %>
+                <%= f.submit 'Book Flight' %>
+            <% end %>
+    <% end %>
+    <% else %>
 <% end %>
 
 

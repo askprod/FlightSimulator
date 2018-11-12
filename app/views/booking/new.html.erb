@@ -1,0 +1,25 @@
+<% if !@flight_id.nil? %>
+
+<h1>You chose flight N° <%= @flight_id %>!</h1>
+<h2>Flight info:</h2>
+        <ul>
+            <li><p>From: <%= Airport.find(Flight.find(@flight_id).departure_airport_id).airport_code %></p></li>
+            <li><p>To: <%= Airport.find(Flight.find(@flight_id).arrival_airport_id).airport_code %></p></li>
+            <li><p>Day of departure: <%= Flight.find(@flight_id).departure_date %></p></li>
+            <li><p>Time of departure: <%= Flight.find(@flight_id).departure_time %></p></li>
+            <li><p>Travel time: <%= Flight.find(@flight_id).duration %>H</p></li>
+        </ul>
+
+<h2>Please fill information for the <%= @number_of_passengers %> passengers you are booking for:</h2>
+    <% @number_of_passengers.times do |n| %>
+            <p>Passenger N°<%= n+1 %></p>
+    <% end %>
+
+<a href = '/'>Book another flight.</a>
+
+<% else %>
+<h1>Please choose a flight.</h1>
+<a href = '/'>Back</a>
+<% end %>
+
+
